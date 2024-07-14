@@ -69,6 +69,9 @@ class AmqpServer:
     async def _on_close(self, connection: AmqpConnection) -> None:
         self._connections.remove(connection)
 
+    async def pre_shutdown(self) -> None:
+        pass
+
     def __call__(self, reader: StreamReader, writer: StreamWriter) -> AmqpConnection:
         connection = AmqpConnection(reader, writer, self._on_consume, self._server_properties)
         connection.on_publish(self._on_publish) \
